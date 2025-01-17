@@ -27,7 +27,7 @@ class CultivatorSchema(BaseModel):
     class Config:
         from_attributes = True
 
-class UpdateCultivator(BaseModel):
+class UpdateCultivatorSchema(BaseModel):
     company_id: Optional[int]
     name: Optional[str]
     active: Optional[bool]
