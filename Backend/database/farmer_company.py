@@ -18,3 +18,12 @@ def getFarmerCompanyData(db:Session) ->FarmerCompany:
     farmerData = db.query(FarmerCompany).all()
     return farmerData
     
+def addFarmerCompanyData(companyData:dict,db:Session)->FarmerCompany:
+    try:
+        new_data = FarmerCompany(**companyData)   
+        db.add(new_data)
+        db.commit()
+        db.refresh(new_data)
+        return new_data
+    except:
+        return "Something Went wrong.. Unable to add data to the database"
