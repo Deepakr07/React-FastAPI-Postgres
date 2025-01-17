@@ -11,7 +11,7 @@ class FarmerCompany(Base):
     code = Column(Integer, nullable=False)
     active = Column(Boolean, nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)
-    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow)
     created_by = Column(String, nullable=False)
     updated_by = Column(String, nullable=False)
 
