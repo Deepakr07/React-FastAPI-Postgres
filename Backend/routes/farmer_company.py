@@ -1,4 +1,4 @@
-from database.farmer_company import farmer_company_helper,get_farmer_companies_data,add_farmer_company_data,update_farmer_company,get_single_farmer_company
+from database.farmer_company import farmer_company_helper,get_farmer_companies_data,add_farmer_company_data,update_farmer_company,get_single_farmer_company,delete_company
 from sqlalchemy.orm import Session
 from database.config import get_db
 from fastapi import APIRouter,Depends
@@ -29,4 +29,13 @@ def update_farmer_company_data(id:int, req: UpdateFarmerCompanySchema,db:Session
     req_data = {k:v for k, v in req.dict().items() if v is not None}
     if update_farmer_company(db,id,req_data):
         updated_farmer_company = get_single_farmer_company(db,id)
-        return farmer_company_helper(updated_farmer_company)     
+        return farmer_company_helper(updated_farmer_company)
+
+@router.delete("/{id}",response_description="Data deleted successfully")
+def delete_farmer_company(id:int, db:Session = Depends(get_db)):
+    if delete_company(id,db):
+        return f"Data with id {id} deleted sucessfully"
+    else:
+        return "Something went wrong, unable to delete data"
+
+
