@@ -1,0 +1,21 @@
+.table-section{
+    height: 100vh;
+    padding-left: 90px;
+    padding-right: 50px;
+    padding-top: 10px;
+}
+table{
+    border-collapse: collapse;
+    text-indent: initial;
+    border-spacing: 2px;
+    width: 100%;
+}
+.table-container{
+    padding: 30px;
+}
+td, th {
+    text-align: center;         /* Centers content horizontally */
+    vertical-align: middle;     /* Centers content vertically */
+    border: 1px solid #ddd;     /* Optional: Adds border to the cells */
+    height: 50px;               /* Optional: Sets cell height */
+  }
