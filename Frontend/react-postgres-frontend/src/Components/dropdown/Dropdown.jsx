@@ -1,73 +1,51 @@
 import * as React from 'react';
-import { useTheme } from '@mui/material/styles';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
+import { useForm, Controller } from 'react-hook-form';
+import { MenuItem, FormControl, InputLabel, Select, FormHelperText } from '@mui/material';
+import "./dropdown.css"
+import Button from '../button/button';
+const DropdownForm = () => {
+  // Initialize the form with useForm
+  const { control, handleSubmit, formState: { errors } } = useForm();
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
+  // Options for the dropdown
+  const dropdownOptions = ['Option 1', 'Option 2', 'Option 3', 'Option 4'];
 
-const names = [
-
-];
-
-function getStyles(name, personName, theme) {
-  return {
-    fontWeight: personName === name
-      ? theme.typography.fontWeightMedium
-      : theme.typography.fontWeightRegular,
-  };
-}
-
-export default function SingleSelectDropdown() {
-  const theme = useTheme();
-  const [personName, setPersonName] = React.useState('');
-
-  const handleChange = (event) => {
-    const { target: { value } } = event;
-    setPersonName(value);
+  // Submit handler
+  const onSubmit = (data) => {
+    console.log(data);
   };
 
   return (
-    <div>
-      <FormControl sx={{ m: 1, width: 300, mt: 3, color: "red" }}>
-        <Select
-          value={personName}
-          onChange={handleChange}
-          input={<OutlinedInput />}
-          renderValue={(selected) => {
-            if (!selected) {
-              return <em>Placeholder</em>;
-            }
-            return selected;
-          }}
-          MenuProps={MenuProps}
-          inputProps={{ 'aria-label': 'Without label' }}
-        >
-          <MenuItem disabled value="">
-            <em>Placeholder</em>
-          </MenuItem>
-          {names.map((name) => (
-            <MenuItem
-              key={name}
-              value={name}
-              style={getStyles(name, personName, theme)}
-              onClick={() => setPersonName(name)} // Close dropdown after selection
+    <form onSubmit={handleSubmit(onSubmit)} className="form">
+      <FormControl fullWidth error={!!errors.dropdown} >
+        <InputLabel id="dropdown-label">Select Option</InputLabel>
+        <Controller
+          name="dropdown"
+          control={control}
+          defaultValue=""
+          rules={{ required: 'This field is required' }}
+          render={({ field }) => (
+            <Select
+              {...field}
+              labelId="dropdown-label"
+              label="Select Option"
+              sx={{width:"25rem",border:"none"}}
             >
-              {name}
-            </MenuItem>
-          ))}
-        </Select>
+              {dropdownOptions.map((option, index) => (
+                <MenuItem key={index} value={option}>
+                  {option}
+                </MenuItem>
+              ))}
+            </Select>
+          )}
+        />
+        {/* Display error message if validation fails */}
+        {errors.dropdown && <FormHelperText>{errors.dropdown.message}</FormHelperText>}
       </FormControl>
-    </div>
+      
+      <Button />
+    </form>
   );
-}
+};
+
+export default DropdownForm;
