@@ -19,7 +19,8 @@ const DropdownForm = ({ onDropdownChange }) => {
 
   const { data, error, isLoading } = useQuery('dropdownOptions', fetchDropdownOptions);
 
-  const onSubmit = (data) => {
+  const onSubmit = (data, e) => {
+    e.preventDefault(); // Prevent form submission from reloading the page
     console.log(data);
 
     // Scroll to the table section
@@ -33,9 +34,8 @@ const DropdownForm = ({ onDropdownChange }) => {
   if (isLoading) return <div>Loading dropdown options...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
-  // Handle the change in the dropdown selection
   const handleChange = (e) => {
-    onDropdownChange(e.target.value);  // Pass the selected value back to the parent component
+    onDropdownChange(e.target.value);  // Pass the selected value back to the parent
   };
 
   return (
@@ -54,8 +54,8 @@ const DropdownForm = ({ onDropdownChange }) => {
               label="Select Option"
               sx={{ width: "25rem", border: "none" }}
               onChange={(e) => {
-                handleChange(e);  // Ensure the dropdown change is passed to the parent
-                field.onChange(e);  // Keep react-hook-form's state updated
+                handleChange(e);  
+                field.onChange(e);  
               }}
             >
               {data.map((option) => (
